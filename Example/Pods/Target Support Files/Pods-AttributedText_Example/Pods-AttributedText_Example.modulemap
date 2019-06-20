@@ -1,0 +1,6 @@
+framework module Pods_AttributedText_Example {
+  umbrella header "Pods-AttributedText_Example-umbrella.h"
+
+  export *
+  module * { export * }
+}

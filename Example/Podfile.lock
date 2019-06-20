@@ -1,0 +1,41 @@
+PODS:
+  - AttributedText (0.1.0):
+    - SwifterSwift
+  - SwifterSwift (5.0.0):
+    - SwifterSwift/AppKit (= 5.0.0)
+    - SwifterSwift/CoreGraphics (= 5.0.0)
+    - SwifterSwift/CoreLocation (= 5.0.0)
+    - SwifterSwift/Dispatch (= 5.0.0)
+    - SwifterSwift/Foundation (= 5.0.0)
+    - SwifterSwift/MapKit (= 5.0.0)
+    - SwifterSwift/SpriteKit (= 5.0.0)
+    - SwifterSwift/SwiftStdlib (= 5.0.0)
+    - SwifterSwift/UIKit (= 5.0.0)
+  - SwifterSwift/AppKit (5.0.0)
+  - SwifterSwift/CoreGraphics (5.0.0)
+  - SwifterSwift/CoreLocation (5.0.0)
+  - SwifterSwift/Dispatch (5.0.0)
+  - SwifterSwift/Foundation (5.0.0)
+  - SwifterSwift/MapKit (5.0.0)
+  - SwifterSwift/SpriteKit (5.0.0)
+  - SwifterSwift/SwiftStdlib (5.0.0)
+  - SwifterSwift/UIKit (5.0.0)
+
+DEPENDENCIES:
+  - AttributedText (from `../`)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - SwifterSwift
+
+EXTERNAL SOURCES:
+  AttributedText:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  AttributedText: 420b9bfea7b7125f7b6a1054398051a46aae7031
+  SwifterSwift: 96f90594b370802f01647c2b1229c74a84ffafee
+
+PODFILE CHECKSUM: 22b3d50070f5b5ee7757504685b7e1ad2e228d41
+
+COCOAPODS: 1.7.1

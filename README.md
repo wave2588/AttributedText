@@ -22,7 +22,7 @@ pod 'AttributedText'
 
 ## Author
 
-wave2588, zhanghaibo@bxzz.net
+wave, q.wavedev@gmail.com
 
 ## License
 
