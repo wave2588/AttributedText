@@ -23,24 +23,31 @@ class ViewController: UIViewController {
     
     @IBAction func clickHashtagAction(_ sender: Any) {
 
-        let model = TextViewModel(id: "1", text:"我是话题标签", symbolStr: "#", image: nil, type: 1)
+        let model = TextViewModel(id: "id-0", text:"话题标签", symbolStr: "#", image: nil, type: 0)
         textView.insertSpecialText(model: model, isDeleteLastString: false)
     }
     
     @IBAction func clickMemberAction(_ sender: Any) {
         
-        let model = TextViewModel(id: "2", text:"我是人物标签", symbolStr: "@", image: nil, type: 2)
+        let model = TextViewModel(id: "id-1", text:"人物标签", symbolStr: "@", image: nil, type: 1)
         textView.insertSpecialText(model: model, isDeleteLastString: false)
     }
     
     @IBAction func clickLocationAction(_ sender: Any) {
         
-        let model = TextViewModel(id: "3", text:"我是位置标签", symbolStr: nil, image: #imageLiteral(resourceName: "location"), type: 3)
+        let model = TextViewModel(id: "id-2", text:"位置标签", symbolStr: nil, image: #imageLiteral(resourceName: "location"), type: 2)
         textView.insertSpecialText(model: model, isDeleteLastString: false)
     }
     
+    @IBAction func clickNextAction(_ sender: Any) {
+
+        if let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withClass: TwoViewController.self) {
+            
+            vc.text = textView.outputs.hashtagText
+            self.present(vc, animated: true, completion: nil)
+        }
+    }
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        debugPrint(textView.outputs.text)
-        debugPrint(textView.outputs.hashtagText)
     }
 }

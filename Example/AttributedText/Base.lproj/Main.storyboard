@@ -55,6 +55,14 @@
                                     <action selector="clickLocationAction:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="rGP-pu-c4X"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qZm-Nw-f74">
+                                <rect key="frame" x="262" y="452" width="30" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="next"/>
+                                <connections>
+                                    <action selector="clickNextAction:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="nkx-sz-Qxa"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -69,6 +77,43 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
+        </scene>
+        <!--Two View Controller-->
+        <scene sceneID="cPU-oj-XZs">
+            <objects>
+                <viewController storyboardIdentifier="TwoViewController" id="kek-PW-huY" customClass="TwoViewController" customModule="AttributedText_Example" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="f0V-H5-7aI"/>
+                        <viewControllerLayoutGuide type="bottom" id="odD-of-kbA"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Ofb-nX-iDT">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="32D-8N-NaY" customClass="InputTextView" customModule="AttributedText">
+                                <rect key="frame" x="0.0" y="120" width="375" height="150"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="150" id="Tkk-1u-kXe"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="32D-8N-NaY" firstAttribute="top" secondItem="f0V-H5-7aI" secondAttribute="bottom" constant="100" id="2Fu-6K-kWn"/>
+                            <constraint firstAttribute="trailing" secondItem="32D-8N-NaY" secondAttribute="trailing" id="PmR-hL-9tl"/>
+                            <constraint firstItem="32D-8N-NaY" firstAttribute="leading" secondItem="Ofb-nX-iDT" secondAttribute="leading" id="wCh-ly-Odb"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="textView" destination="32D-8N-NaY" id="o4p-R3-dig"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="KKs-E6-t6d" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1324" y="33"/>
         </scene>
     </scenes>
 </document>

@@ -18,6 +18,12 @@ public class InputTextView: UITextView {
     /// text change
     public var textChanged: ((String)->())?
     
+    /// model map
+    public var modelMapper: ((String)->(TextViewModel?))?
+    
+    /// config
+    public var config: AttributedTextConfig?
+    
     /// outputs
     public var outputs: TextViewOutputModel {
         
@@ -44,21 +50,16 @@ public class InputTextView: UITextView {
     /// default text style
     public var defaultAttributes: [NSAttributedString.Key : Any] = [:] {
         didSet{
-            typingAttributes = defaultAttributes.mapKeysAndValues({ key, value -> (String, Any) in
-                return (key.rawValue, value)
-            })
+            typingAttributes = defaultAttributes
         }
     }
     
     /// special text style
     public var linkAttributes: [NSAttributedString.Key : Any] = [:] {
         didSet {
-            linkTextAttributes = linkAttributes.mapKeysAndValues({ key, value -> (String, Any) in
-                return (key.rawValue, value)
-            })
+            linkTextAttributes = linkAttributes
         }
     }
-    
     
     /// placeholderView
     private let placeholderView: InputTextViewPlaceholderView = .fromNib()
@@ -92,9 +93,9 @@ public class InputTextView: UITextView {
                     if let _ = attrs as? TextViewInserAttributeModel {
                         
                         if newRange.location > range.location && newRange.location < range.location+range.length {
-                            //光标距离左边界的值
+                            /// cursor left value
                             let leftValue = newRange.location - range.location
-                            //光标距离右边界的值
+                            /// cursor right value
                             let rightValue = range.location + range.length - newRange.location
                             if (leftValue >= rightValue) {
                                 self.selectedRange = NSMakeRange(self.selectedRange.location-leftValue, 0);
@@ -132,52 +133,46 @@ public extension InputTextView {
         
         attributedText = currentTextAttText
         
-        typingAttributes = defaultAttributes.mapKeysAndValues({ key, value -> (String, Any) in
-            return (key.rawValue, value)
-        })
+        typingAttributes = defaultAttributes
         
         selectedRange = NSMakeRange(rg.location + modelAttr.length, 0)
         scrollRangeToVisible(NSRange(location: rg.location, length: 0))
     }
     
-    /// add text
+    /// add attr
     func set(text: String) {
         
         let resultAttr = NSMutableAttributedString(string: text, attributes: defaultAttributes)
         
-        let matches = resultAttr.string.matchingStrings(regex: "#\\u200b.*?\\u200b")
+        guard let pattern = config?.pattern else {
+            debugPrint("pattern is nil")
+            return
+        }
+        
+        let matches = text.matchingStrings(regex: pattern)
 
         for content in matches {
             
             let range = (resultAttr.string as NSString).range(of: content)
-            
-            
-//            let hashTagModel = TextViewHashTagModel(text: content)
-//            if
-//                let id = hashTagModel.id,
-//                let content = hashTagModel.content,
-//                let type = hashTagModel.type {
-//
-//                let attr = createAtt(model: TextViewModel(id: id, content: content, type: type))
-//                resultAttr.replaceCharacters(in: range, with: attr)
-//            }
+            if let model = modelMapper?(content) {
+                let attr = createAtt(model: model)
+                resultAttr.replaceCharacters(in: range, with: attr)
+            }
         }
-
-        attributedText = resultAttr
         
-        typingAttributes = defaultAttributes.mapKeysAndValues({ key, value -> (String, Any) in
-            return (key.rawValue, value)
-        })
+        attributedText = resultAttr
 
-        selectedRange = NSRange(location: resultAttr.length, length: 0)
-        scrollRangeToVisible(NSRange(location: resultAttr.length, length: 0))
+        typingAttributes = defaultAttributes
+
+        selectedRange = NSRange(location: attributedText.length, length: 0)
+        scrollRangeToVisible(NSRange(location: attributedText.length, length: 0))
     }
 }
 
 extension InputTextView: UITextViewDelegate {
     
     public func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        
+
         textChanged?(text)
         
         /// delete
@@ -203,15 +198,11 @@ extension InputTextView: UITextViewDelegate {
                 }
             }
             
-            typingAttributes = defaultAttributes.mapKeysAndValues({ key, value -> (String, Any) in
-                return (key.rawValue, value)
-            })
+            typingAttributes = defaultAttributes
             return !deletedSpecial
         }
         
-        typingAttributes = defaultAttributes.mapKeysAndValues({ key, value -> (String, Any) in
-            return (key.rawValue, value)
-        })
+        typingAttributes = defaultAttributes
 
         return true
     }
@@ -220,9 +211,7 @@ extension InputTextView: UITextViewDelegate {
         
         placeholderView.isHidden = textView.text == "" ? false : true
 
-        typingAttributes = defaultAttributes.mapKeysAndValues({ key, value -> (String, Any) in
-            return (key.rawValue, value)
-        })
+        typingAttributes = defaultAttributes
     }
 }
 
@@ -231,13 +220,6 @@ private extension InputTextView {
     func createAtt(model: TextViewModel) -> NSMutableAttributedString {
         
         let mutableAttrString = NSMutableAttributedString(string: "")
-        
-        /// symbol
-        if let symbol = model.symbolStr {
-            let symbolMutableAttrString = NSMutableAttributedString(string: symbol)
-            symbolMutableAttrString.addAttributes(linkAttributes, range: NSRange(location: 0, length: symbolMutableAttrString.length))
-            mutableAttrString.insert(symbolMutableAttrString, at: mutableAttrString.length)
-        }
         
         /// image
         if let image = model.image {
@@ -248,14 +230,15 @@ private extension InputTextView {
             mutableAttrString.insert(attachString, at: mutableAttrString.length)
         }
         
-        /// text
-        let textMutableAttrString = NSMutableAttributedString(string: model.text)
+        /// text = symbol + text
+        let text = "\(model.symbolStr ?? "")\(model.text)"
+        let textMutableAttrString = NSMutableAttributedString(string: text)
         textMutableAttrString.addAttributes(linkAttributes, range: NSRange(location: 0, length: textMutableAttrString.length))
         mutableAttrString.insert(textMutableAttrString, at: mutableAttrString.length)
         
         /// space
         let spaceAttributedString = NSAttributedString(string: " ")
-//        mutableAttrString.insert(spaceAttributedString, at: 0)
+        //        mutableAttrString.insert(spaceAttributedString, at: 0)
         mutableAttrString.insert(spaceAttributedString, at: mutableAttrString.length)
         
         /// add special key
