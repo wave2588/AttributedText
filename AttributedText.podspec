@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'AttributedText'
-  s.version          = '0.1.0'
+  s.version          = '0.8.0'
   s.summary          = 'A short description of AttributedText.'
 
   s.homepage         = 'https://github.com/wave2588/AttributedText'
