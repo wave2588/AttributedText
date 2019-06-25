@@ -5,9 +5,23 @@
 [![License](https://img.shields.io/cocoapods/l/AttributedText.svg?style=flat)](https://cocoapods.org/pods/AttributedText)
 [![Platform](https://img.shields.io/cocoapods/p/AttributedText.svg?style=flat)](https://cocoapods.org/pods/AttributedText)
 
+## Requirements
+Swift 5.0 or later
+
+## Installation
+
+AttributedText is available through [CocoaPods](https://cocoapods.org). To install
+it, simply add the following line to your Podfile:
+
+```ruby
+pod 'AttributedText'
+```
+
 ## Example
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
+
+![img](http://oysf.vip/text.gif)
 
 #### AttributedTextView
 ```
@@ -72,18 +86,6 @@ let defaultAttributes: [NSAttributedString.Key : Any] = [
 ]
 let attr = NSAttributedString(string: text, attributes: defaultAttributes)
 label.set(attributedString: attr)
-```
-
-## Requirements
-Swift 5.0 or later
-
-## Installation
-
-AttributedText is available through [CocoaPods](https://cocoapods.org). To install
-it, simply add the following line to your Podfile:
-
-```ruby
-pod 'AttributedText'
 ```
 
 ## Author
