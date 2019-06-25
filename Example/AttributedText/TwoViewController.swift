@@ -44,7 +44,15 @@ class TwoViewController: UIViewController {
             debugPrint(m.text)
         }
         
-        label.set(text: text)
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = 4
+        let defaultAttributes: [NSAttributedString.Key : Any] = [
+            .font: UIFont.systemFont(ofSize: 15),
+            .foregroundColor: UIColor.black,
+            .paragraphStyle: paragraphStyle,
+        ]
+        let attr = NSAttributedString(string: text, attributes: defaultAttributes)
+        label.set(attributedString: attr)
         
         textView.modelMapper = { text -> TextModel? in
             

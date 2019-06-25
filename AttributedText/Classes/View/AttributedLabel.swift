@@ -11,9 +11,6 @@ public class AttributedLabel: UILabel {
 
     /// model map
     public var modelMapper: ((String)->(TextModel?))?
-    
-    /// special text style
-    public var defaultAttributes: [NSAttributedString.Key : Any] = [:]
 
     /// special text style
     public var linkAttributes: [NSAttributedString.Key : Any] = [:]
@@ -99,10 +96,10 @@ public class AttributedLabel: UILabel {
 
 public extension AttributedLabel {
     
-    func set(text: String) {
+    func set(attributedString: NSAttributedString) {
         
-        let resultAttr = NSMutableAttributedString(string: text, attributes: defaultAttributes)
-        
+        let resultAttr = NSMutableAttributedString(attributedString: attributedString)
+
         let matches = resultAttr.string.matchingStrings(regex: "#\\u200b.*?\\u200b")
         
         for content in matches {
@@ -166,12 +163,6 @@ private extension AttributedLabel {
         linkAttributes = [
             .font: UIFont.systemFont(ofSize: 15),
             .foregroundColor: UIColor(red: 69, green: 144, blue: 229) ?? .black,
-            .paragraphStyle: paragraphStyle,
-        ]
-        
-        defaultAttributes = [
-            .font: UIFont.systemFont(ofSize: 15),
-            .foregroundColor: UIColor.black,
             .paragraphStyle: paragraphStyle,
         ]
         

@@ -34,7 +34,7 @@
 		63DCBE262AB30913A70FB2F7 /* Pods_AttributedText_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AttributedText_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7DCB442BD4911B201EB8CA88 /* Pods-AttributedText_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AttributedText_Tests.debug.xcconfig"; path = "Target Support Files/Pods-AttributedText_Tests/Pods-AttributedText_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		B3AB6CD062C33C5EE32B97D0 /* Pods-AttributedText_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AttributedText_Example.debug.xcconfig"; path = "Target Support Files/Pods-AttributedText_Example/Pods-AttributedText_Example.debug.xcconfig"; sourceTree = "<group>"; };
-		BBC935ABF6ACAE5692B6E17E /* AttributedText.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = AttributedText.podspec; path = ../AttributedText.podspec; sourceTree = "<group>"; };
+		BBC935ABF6ACAE5692B6E17E /* AttributedText.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = AttributedText.podspec; path = ../AttributedText.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		E2045E70494DF2B1801FD165 /* Pods_AttributedText_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AttributedText_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
