@@ -1,5 +1,5 @@
 PODS:
-  - AttributedText (0.1.0):
+  - AttributedText (0.5.0):
     - SwifterSwift
   - SwifterSwift (5.0.0):
     - SwifterSwift/AppKit (= 5.0.0)
@@ -33,9 +33,9 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  AttributedText: 07324bca40fc87717219dc0ac555da2f60840314
+  AttributedText: 10a51a18a60bcf07652fdb3efe0ce3cc2213f87f
   SwifterSwift: 96f90594b370802f01647c2b1229c74a84ffafee
 
 PODFILE CHECKSUM: 22b3d50070f5b5ee7757504685b7e1ad2e228d41
 
-COCOAPODS: 1.7.1
+COCOAPODS: 1.7.2
