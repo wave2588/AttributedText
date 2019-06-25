@@ -11,7 +11,6 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '10.0'
   s.swift_version = '5.0'
 
-  s.resources    = 'AttributedText/Assets/**/*'
   s.source_files = 'AttributedText/Classes/**/*'
 
   s.dependency 'SwifterSwift'
