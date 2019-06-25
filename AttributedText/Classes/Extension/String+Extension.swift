@@ -7,6 +7,13 @@
 
 import Foundation
 
+public extension String {
+    
+    func split() -> [String] {
+        return split(separator: Character("|")).map{ return String($0) }
+    }
+}
+
 extension String {
     
     var utf8ConvertUnicodeStr: String {
@@ -21,6 +28,9 @@ extension String {
         guard let datadec = data(using: .utf8) else { return "" }
         return String(data: datadec, encoding: .nonLossyASCII) ?? ""
     }
+}
+
+extension String {
     
     func matchingStrings(regex: String) -> [String] {
         guard let regex = try? NSRegularExpression(pattern: regex, options: []) else { return [] }

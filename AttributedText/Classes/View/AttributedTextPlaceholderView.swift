@@ -1,5 +1,5 @@
 //
-//  InputTextViewPlaceholderView.swift
+//  AttributedTextPlaceholderView.swift
 //  Label
 //
 //  Created by wave on 2019/3/15.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class InputTextViewPlaceholderView: UIView {
+class AttributedTextPlaceholderView: UIView {
 
     @IBOutlet weak var label: UILabel!
     

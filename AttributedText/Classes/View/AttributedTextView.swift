@@ -1,5 +1,5 @@
 //
-//  InputTextView.swift
+//  AttributedTextView.swift
 //  AttributedText
 //
 //  Created by wave on 2019/6/20.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-public class InputTextView: UITextView {
+public class AttributedTextView: UITextView {
     
     deinit {
         removeObserver(self, forKeyPath: "selectedTextRange")
@@ -19,17 +19,14 @@ public class InputTextView: UITextView {
     public var textChanged: ((String)->())?
     
     /// model map
-    public var modelMapper: ((String)->(TextViewModel?))?
-    
-    /// config
-    public var config: AttributedTextConfig?
+    public var modelMapper: ((String)->(TextModel?))?
     
     /// outputs
     public var outputs: TextViewOutputModel {
         
         let hashtagTextAttr = NSMutableAttributedString(attributedString: attributedText)
         
-        attributedText.enumerateAttribute(NSAttributedString.Key(rawValue: kInputTextViewSpecialTextKeyAttributeName), in: NSRange(location: 0, length: attributedText.length), options: NSAttributedString.EnumerationOptions.reverse) { (attr, range, _) in
+        attributedText.enumerateAttribute(NSAttributedString.Key(rawValue: kAttributedTextViewSpecialTextKeyAttributeName), in: NSRange(location: 0, length: attributedText.length), options: NSAttributedString.EnumerationOptions.reverse) { (attr, range, _) in
             
             if let model = attr as? TextViewInserAttributeModel {
                 
@@ -62,11 +59,22 @@ public class InputTextView: UITextView {
     }
     
     /// placeholderView
-    private let placeholderView: InputTextViewPlaceholderView = .fromNib()
+    private let placeholderView: AttributedTextPlaceholderView = .fromNib()
 
-    /// 标记插入文本的索引值
-    private let kInputTextViewSpecialTextKeyAttributeName = "kInputTextViewSpecialTextKeyAttributeName"
-
+    /// insert attributed key
+    private let kAttributedTextViewSpecialTextKeyAttributeName = "kAttributedTextViewSpecialTextKeyAttributeName"
+    
+    public override init(frame: CGRect, textContainer: NSTextContainer?) {
+        super.init(frame: frame, textContainer: textContainer)
+        
+        configureTextView()
+        configurePlaceholderView()
+    }
+    
+    public required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
     override public func awakeFromNib() {
         super.awakeFromNib()
         
@@ -88,7 +96,7 @@ public class InputTextView: UITextView {
             let oldRange = selectedRange(selectedTextRange: oldContentStr)
             if newRange.location != oldRange.location {
                 
-                attributedText.enumerateAttribute(NSAttributedString.Key(rawValue: kInputTextViewSpecialTextKeyAttributeName), in: NSMakeRange(0, attributedText.length), options: NSAttributedString.EnumerationOptions.reverse) { (attrs, range, stop) in
+                attributedText.enumerateAttribute(NSAttributedString.Key(rawValue: kAttributedTextViewSpecialTextKeyAttributeName), in: NSMakeRange(0, attributedText.length), options: NSAttributedString.EnumerationOptions.reverse) { (attrs, range, stop) in
                     
                     if let _ = attrs as? TextViewInserAttributeModel {
                         
@@ -114,10 +122,10 @@ public class InputTextView: UITextView {
     }
 }
 
-public extension InputTextView {
+public extension AttributedTextView {
     
     ///  add model
-    func insertSpecialText(model: TextViewModel, isDeleteLastString: Bool) {
+    func insertSpecialText(model: TextModel, isDeleteLastString: Bool) {
         
         var rg = selectedRange
         
@@ -144,12 +152,7 @@ public extension InputTextView {
         
         let resultAttr = NSMutableAttributedString(string: text, attributes: defaultAttributes)
         
-        guard let pattern = config?.pattern else {
-            debugPrint("pattern is nil")
-            return
-        }
-        
-        let matches = text.matchingStrings(regex: pattern)
+        let matches = text.matchingStrings(regex: "#\\u200b.*?\\u200b")
 
         for content in matches {
             
@@ -169,7 +172,7 @@ public extension InputTextView {
     }
 }
 
-extension InputTextView: UITextViewDelegate {
+extension AttributedTextView: UITextViewDelegate {
     
     public func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
 
@@ -180,7 +183,7 @@ extension InputTextView: UITextViewDelegate {
             
             var deletedSpecial = false
             let oldRange = selectedRange
-            attributedText.enumerateAttribute(NSAttributedString.Key(rawValue: kInputTextViewSpecialTextKeyAttributeName), in: NSMakeRange(0, attributedText.length), options: NSAttributedString.EnumerationOptions.reverse) { (attr, range, stop) in
+            attributedText.enumerateAttribute(NSAttributedString.Key(rawValue: kAttributedTextViewSpecialTextKeyAttributeName), in: NSMakeRange(0, attributedText.length), options: NSAttributedString.EnumerationOptions.reverse) { (attr, range, stop) in
                 
                 let deleteRange = NSMakeRange(self.selectedRange.location - 1, 0)
                 
@@ -215,9 +218,9 @@ extension InputTextView: UITextViewDelegate {
     }
 }
 
-private extension InputTextView {
+private extension AttributedTextView {
     
-    func createAtt(model: TextViewModel) -> NSMutableAttributedString {
+    func createAtt(model: TextModel) -> NSMutableAttributedString {
         
         let mutableAttrString = NSMutableAttributedString(string: "")
         
@@ -243,9 +246,9 @@ private extension InputTextView {
         
         /// add special key
         var insertModel = TextViewInserAttributeModel()
-        insertModel.content = model.unicodeText.unicodeConvertUtf8
+        insertModel.content = model.unicodeText?.unicodeConvertUtf8 ?? ""
         insertModel.length = mutableAttrString.length
-        mutableAttrString.addAttribute(NSAttributedString.Key(rawValue: kInputTextViewSpecialTextKeyAttributeName), value: insertModel, range: NSRange(location: 0, length: mutableAttrString.length))
+        mutableAttrString.addAttribute(NSAttributedString.Key(rawValue: kAttributedTextViewSpecialTextKeyAttributeName), value: insertModel, range: NSRange(location: 0, length: mutableAttrString.length))
         
         return mutableAttrString
     }
@@ -258,14 +261,14 @@ private extension InputTextView {
     }
 }
 
-private extension InputTextView {
+private extension AttributedTextView {
     
     @objc func clickPlaceholderView() {
         becomeFirstResponder()
     }
 }
 
-private extension InputTextView {
+private extension AttributedTextView {
     
     func configureTextView() {
 

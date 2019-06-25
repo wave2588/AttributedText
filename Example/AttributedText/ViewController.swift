@@ -11,7 +11,7 @@ import AttributedText
 
 class ViewController: UIViewController {
 
-    @IBOutlet weak var textView: InputTextView!
+    @IBOutlet weak var textView: AttributedTextView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,19 +23,19 @@ class ViewController: UIViewController {
     
     @IBAction func clickHashtagAction(_ sender: Any) {
 
-        let model = TextViewModel(id: "id-0", text:"话题标签", symbolStr: "#", image: nil, type: 0)
+        let model = TextModel(id: "id-0", text:"话题标签", symbolStr: "#", image: nil, type: 0)
         textView.insertSpecialText(model: model, isDeleteLastString: false)
     }
     
     @IBAction func clickMemberAction(_ sender: Any) {
         
-        let model = TextViewModel(id: "id-1", text:"人物标签", symbolStr: "@", image: nil, type: 1)
+        let model = TextModel(id: "id-1", text:"人物标签", symbolStr: "@", image: nil, type: 1)
         textView.insertSpecialText(model: model, isDeleteLastString: false)
     }
     
     @IBAction func clickLocationAction(_ sender: Any) {
         
-        let model = TextViewModel(id: "id-2", text:"位置标签", symbolStr: nil, image: #imageLiteral(resourceName: "location"), type: 2)
+        let model = TextModel(id: "id-2", text:"位置标签", symbolStr: nil, image: #imageLiteral(resourceName: "location"), type: 2)
         textView.insertSpecialText(model: model, isDeleteLastString: false)
     }
     
@@ -51,3 +51,4 @@ class ViewController: UIViewController {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
     }
 }
+
