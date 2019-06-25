@@ -23,7 +23,9 @@ public struct TextModel {
     
     public var type: Int
     
-    var unicodeText: String?
+    public var content: String
+    
+    var unicodeText: String
 
     public init(id: String, text: String, symbolStr: String?, image: UIImage?, type: Int) {
 
@@ -36,5 +38,7 @@ public struct TextModel {
         let separatorKey = "|"
         let nullWideCharacter = "\\u200b"
         self.unicodeText = "#\(nullWideCharacter)\(separatorKey)\(id)\(separatorKey)\(type)\(separatorKey)\(text.utf8ConvertUnicodeStr)\(nullWideCharacter)"
+        
+        self.content = self.unicodeText.unicodeConvertUtf8
     }
 }

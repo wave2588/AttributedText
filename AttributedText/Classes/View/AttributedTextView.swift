@@ -247,7 +247,7 @@ private extension AttributedTextView {
         
         /// add special key
         var insertModel = TextViewInserAttributeModel()
-        insertModel.content = model.unicodeText?.unicodeConvertUtf8 ?? ""
+        insertModel.content = model.unicodeText.unicodeConvertUtf8
         insertModel.length = mutableAttrString.length
         mutableAttrString.addAttribute(NSAttributedString.Key(rawValue: kAttributedTextViewSpecialTextKeyAttributeName), value: insertModel, range: NSRange(location: 0, length: mutableAttrString.length))
         
