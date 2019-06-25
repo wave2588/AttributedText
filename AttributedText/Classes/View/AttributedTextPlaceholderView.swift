@@ -22,12 +22,11 @@ class AttributedTextPlaceholderView: UIView {
         super.init(frame: frame)
         
         addSubview(label)
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
-        label.frame = bounds
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
+        label.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
+        label.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+        label.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
     }
     
     required init?(coder aDecoder: NSCoder) {
