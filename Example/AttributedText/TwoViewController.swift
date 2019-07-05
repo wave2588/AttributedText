@@ -43,7 +43,8 @@ class TwoViewController: UIViewController {
             guard let m = model else { return }
             debugPrint(m.text)
         }
-        
+        debugPrint(222, label.formatText(text: text))
+
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 4
         let defaultAttributes: [NSAttributedString.Key : Any] = [
@@ -74,7 +75,7 @@ class TwoViewController: UIViewController {
         textView.set(text: text)
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    @IBAction func clickDismissButtonAction(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
 }

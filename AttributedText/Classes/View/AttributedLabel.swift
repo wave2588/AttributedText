@@ -53,45 +53,6 @@ public class AttributedLabel: UILabel {
         
         textContainer.size = size
     }
-
-    public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
-        guard let touch = touches.first else { return }
-        let location = touch.location(in: self)
-        
-        let index = layoutManager.glyphIndex(for: location, in: textContainer)
-        guard let attributedText = self.attributedText else { return }
-
-        var model: TextModel?
-        
-        attributedText.enumerateAttribute(NSAttributedString.Key(rawValue: kInputTextViewSpecialTextKeyAttributeName), in: NSMakeRange(0, attributedText.length), options: NSAttributedString.EnumerationOptions.reverse) { (attr, range, stop) in
-            
-            if let textModel = attr as? TextModel {
-                
-                let location = range.location
-                let length = range.length
-                if index > location && index < location + length {
-                    
-                    /// 点击效果
-                    if let color = linkAttributes[.foregroundColor] as? UIColor {
-                        var tempLinkAttributes = linkAttributes
-                        tempLinkAttributes[.foregroundColor] = color.withAlphaComponent(0.5)
-                        textStorage.addAttributes(tempLinkAttributes, range: range)
-                        setNeedsDisplay()
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2, execute: {
-                            self.textStorage.addAttributes(self.linkAttributes, range: range)
-                            self.setNeedsDisplay()
-                        })
-                    }
-                    
-                    model = textModel
-                    stop.pointee = true
-                }
-            }
-        }
-
-        clickLink?(model)
-    }
 }
 
 public extension AttributedLabel {
@@ -115,6 +76,21 @@ public extension AttributedLabel {
         textStorage.setAttributedString(resultAttr)
         
         setNeedsDisplay()
+    }
+    
+    /// 去掉标签格式后的文本结构
+    func formatText(text: String) -> String {
+        
+        let resultAttr = NSMutableAttributedString(string: text)
+        let matches = resultAttr.string.matchingStrings(regex: "#\\u200b.*?\\u200b")
+        for content in matches {
+            let range = (resultAttr.string as NSString).range(of: content)
+            if let model = modelMapper?(content) {
+                let attr = createAtt(model: model)
+                resultAttr.replaceCharacters(in: range, with: attr)
+            }
+        }
+        return resultAttr.string
     }
 }
 
@@ -153,6 +129,47 @@ private extension AttributedLabel {
 
 private extension AttributedLabel {
     
+    @objc func tapGestureAction(tapGesture: UITapGestureRecognizer) {
+        
+        let location = tapGesture.location(in: self)
+
+        let index = layoutManager.glyphIndex(for: location, in: textContainer)
+        guard let attributedText = self.attributedText else { return }
+        
+        var model: TextModel?
+        
+        attributedText.enumerateAttribute(NSAttributedString.Key(rawValue: kInputTextViewSpecialTextKeyAttributeName), in: NSMakeRange(0, attributedText.length), options: NSAttributedString.EnumerationOptions.reverse) { (attr, range, stop) in
+            
+            if let textModel = attr as? TextModel {
+                
+                let location = range.location
+                let length = range.length
+                if index > location && index < location + length {
+                    
+                    /// 点击效果
+                    if let color = linkAttributes[.foregroundColor] as? UIColor {
+                        var tempLinkAttributes = linkAttributes
+                        tempLinkAttributes[.foregroundColor] = color.withAlphaComponent(0.5)
+                        textStorage.addAttributes(tempLinkAttributes, range: range)
+                        setNeedsDisplay()
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2, execute: {
+                            self.textStorage.addAttributes(self.linkAttributes, range: range)
+                            self.setNeedsDisplay()
+                        })
+                    }
+                    
+                    model = textModel
+                    stop.pointee = true
+                }
+            }
+        }
+        
+        clickLink?(model)
+    }
+}
+
+private extension AttributedLabel {
+    
     func configureLabel() {
         
         font = UIFont.systemFont(ofSize: 15)
@@ -175,5 +192,9 @@ private extension AttributedLabel {
         textContainer.lineFragmentPadding = 0
         textContainer.lineBreakMode = lineBreakMode
         textContainer.maximumNumberOfLines = numberOfLines
+        
+        isUserInteractionEnabled = true
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapGestureAction(tapGesture:)))
+        addGestureRecognizer(tapGesture)
     }
 }
