@@ -295,7 +295,7 @@ private extension AttributedTextView {
         addSubview(placeholderView)
         placeholderView.translatesAutoresizingMaskIntoConstraints = false
         placeholderView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 5).isActive = true
-        placeholderView.topAnchor.constraint(equalTo: self.topAnchor, constant: 5).isActive = true
+        placeholderView.topAnchor.constraint(equalTo: self.topAnchor, constant: 2).isActive = true
         placeholderView.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
         placeholderView.heightAnchor.constraint(equalToConstant: 30).isActive = true
         placeholderView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(clickPlaceholderView)))
