@@ -1,21 +1,13 @@
-# AttributedText
+![img](http://oysf.vip/Artboard.png)
 
-[![CI Status](https://img.shields.io/travis/wave2588/AttributedText.svg?style=flat)](https://travis-ci.org/wave2588/AttributedText)
-[![Version](https://img.shields.io/cocoapods/v/AttributedText.svg?style=flat)](https://cocoapods.org/pods/AttributedText)
-[![License](https://img.shields.io/cocoapods/l/AttributedText.svg?style=flat)](https://cocoapods.org/pods/AttributedText)
-[![Platform](https://img.shields.io/cocoapods/p/AttributedText.svg?style=flat)](https://cocoapods.org/pods/AttributedText)
+<p align="center">
+<a href="https://developer.apple.com/swift"><img src="https://img.shields.io/badge/language-swift5-f48041.svg?style=flat"></a>
+<a href="https://developer.apple.com/ios"><img src="https://img.shields.io/badge/platform-iOS%2010%2B-blue.svg?style=flat"></a>
+<a href="http://cocoadocs.org/docsets/GSRefresh"><img src="https://img.shields.io/badge/Cocoapods-compatible-4BC51D.svg?style=flat"></a>
+<a href="https://github.com/wxxsw/GSRefresh/blob/master/LICENSE"><img src="http://img.shields.io/badge/license-MIT-lightgrey.svg?style=flat"></a>
+<a href="https://github.com/wxxsw/GSRefresh/tree/0.5.5"><img src="https://img.shields.io/badge/release-1.0.1-blue.svg"></a>
+</p>
 
-## Requirements
-Swift 5.0 or later
-
-## Installation
-
-AttributedText is available through [CocoaPods](https://cocoapods.org). To install
-it, simply add the following line to your Podfile:
-
-```ruby
-pod 'AttributedText'
-```
 
 ## Example
 
@@ -24,13 +16,15 @@ To run the example project, clone the repo, and run `pod install` from the Examp
 ![img](http://oysf.vip/text.gif)
 
 #### AttributedTextView
-```
-/// insertModel
+###### Insert single tag
+```swift
 let textView = AttributedTextView()
 let model = TextModel(id: "id-0", text:"hashtag", symbolStr: "#", image: nil, type: 0)
 textView.insertSpecialText(model: model, isDeleteLastString: false)
+```
 
-/// setText
+###### Parsing tag string
+```swift
 textView.modelMapper = { text -> TextModel? in
     
     let splits = text.split()
@@ -53,7 +47,7 @@ textView.set(text: text)
 
 
 #### AttributedLabel
-```
+```swift
 let label = AttributedLabel()
 label.modelMapper = { text -> TextModel? in
     let splits = text.split()
@@ -73,7 +67,7 @@ label.modelMapper = { text -> TextModel? in
 }
     
 label.clickLink = { model in
-    guard let m = model else { return }
+	guard let m = model else { return }
 	debugPrint(m.text)
 }
 
@@ -86,6 +80,15 @@ let defaultAttributes: [NSAttributedString.Key : Any] = [
 ]
 let attr = NSAttributedString(string: text, attributes: defaultAttributes)
 label.set(attributedString: attr)
+```
+
+## Installation
+
+AttributedText is available through [CocoaPods](https://cocoapods.org). To install
+it, simply add the following line to your Podfile:
+
+```ruby
+pod 'AttributedText'
 ```
 
 ## Author
