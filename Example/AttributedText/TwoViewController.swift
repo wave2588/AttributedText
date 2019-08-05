@@ -33,9 +33,10 @@ class TwoViewController: UIViewController {
                 else { return nil }
             
             switch type {
-            case 0:     return TextModel(id: id, text: text, symbolStr: "#", image: nil, type: type)
+//            case 0:     return TextModel(id: id, text: text, symbolStr: "#", image: nil, type: type)
             case 1:     return TextModel(id: id, text: text, symbolStr: "@", image: nil, type: type)
-            default:    return TextModel(id: id, text: text, symbolStr: nil, image: #imageLiteral(resourceName: "location"), type: type)
+            case 2:     return TextModel(id: id, text: text, symbolStr: nil, image: #imageLiteral(resourceName: "location"), type: type)
+            default:    return nil
             }
         }
         

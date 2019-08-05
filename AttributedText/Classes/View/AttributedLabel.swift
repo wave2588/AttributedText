@@ -42,15 +42,13 @@ public class AttributedLabel: UILabel {
     }
     
     public override func draw(_ rect: CGRect) {
-        textContainer.size = rect.size
-        
+        textContainer.size = size
         let range = NSMakeRange(0, textStorage.length)
         layoutManager.drawGlyphs(forGlyphRange: range, at: .zero)
     }
     
     override public func layoutSubviews() {
         super.layoutSubviews()
-        
         textContainer.size = size
     }
 }
@@ -139,7 +137,7 @@ private extension AttributedLabel {
         var model: TextModel?
         
         attributedText.enumerateAttribute(NSAttributedString.Key(rawValue: kInputTextViewSpecialTextKeyAttributeName), in: NSMakeRange(0, attributedText.length), options: NSAttributedString.EnumerationOptions.reverse) { (attr, range, stop) in
-            
+
             if let textModel = attr as? TextModel {
                 
                 let location = range.location
@@ -185,7 +183,7 @@ private extension AttributedLabel {
         
         isUserInteractionEnabled = true
         numberOfLines = 0
-        lineBreakMode = .byWordWrapping
+        lineBreakMode = .byCharWrapping
         
         textStorage.addLayoutManager(layoutManager)
         layoutManager.addTextContainer(textContainer)
