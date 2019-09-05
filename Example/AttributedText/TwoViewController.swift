@@ -19,10 +19,21 @@ class TwoViewController: UIViewController {
     
     var text: String = ""
     
+    /// special text style
+    public var linkAttributes: [NSAttributedString.Key : Any] = [:]
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        label.modelMapper = { text -> TextModel? in
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = 4
+        linkAttributes = [
+            .paragraphStyle: paragraphStyle,
+            .font: UIFont.systemFont(ofSize: 15, weight: .medium),
+            .foregroundColor: UIColor(red: 69, green: 144, blue: 229) ?? .black
+        ]
+        
+        label.modelMapper = { [unowned self] text -> TextModel? in
             let splits = text.split()
             
             guard
@@ -34,8 +45,8 @@ class TwoViewController: UIViewController {
             
             switch type {
 //            case 0:     return TextModel(id: id, text: text, symbolStr: "#", image: nil, type: type)
-            case 1:     return TextModel(id: id, text: text, symbolStr: "@", image: nil, type: type)
-            case 2:     return TextModel(id: id, text: text, symbolStr: nil, image: #imageLiteral(resourceName: "location"), type: type)
+            case 1:     return TextModel(id: id, text: text, image: nil, imageLocation: nil,type: type, attributes: self.linkAttributes)
+            case 2:     return TextModel(id: id, text: text, image: #imageLiteral(resourceName: "database"), imageLocation: .right, type: type, attributes: self.linkAttributes)
             default:    return nil
             }
         }
@@ -46,20 +57,20 @@ class TwoViewController: UIViewController {
         }
         debugPrint(222, label.formatText(text: text))
 
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineSpacing = 4
+        let paragraphStyle1 = NSMutableParagraphStyle()
+        paragraphStyle1.lineSpacing = 4
         let defaultAttributes: [NSAttributedString.Key : Any] = [
             .font: UIFont.systemFont(ofSize: 15),
             .foregroundColor: UIColor.black,
-            .paragraphStyle: paragraphStyle,
+            .paragraphStyle: paragraphStyle1,
         ]
         let attr = NSAttributedString(string: text, attributes: defaultAttributes)
         label.set(attributedString: attr)
         
-        textView.modelMapper = { text -> TextModel? in
+        textView.modelMapper = { [unowned self] text -> TextModel? in
             
             let splits = text.split()
-
+            
             guard
                 splits.count >= 4,
                 let id = splits[safe: 1]?.description,
@@ -68,9 +79,9 @@ class TwoViewController: UIViewController {
                 else { return nil }
             
             switch type {
-            case 0:     return TextModel(id: id, text: text, symbolStr: "#", image: nil, type: type)
-            case 1:     return TextModel(id: id, text: text, symbolStr: "@", image: nil, type: type)
-            default:    return TextModel(id: id, text: text, symbolStr: nil, image: #imageLiteral(resourceName: "location"), type: type)
+            case 0:     return TextModel(id: id, text: text, image: nil, imageLocation: nil, type: type, attributes: self.linkAttributes)
+            case 1:     return TextModel(id: id, text: text, image: nil, imageLocation: nil, type: type, attributes: self.linkAttributes)
+            default:    return TextModel(id: id, text: text, image: #imageLiteral(resourceName: "database"), imageLocation: .right, type: type, attributes: self.linkAttributes)
             }
         }
         textView.set(text: text)

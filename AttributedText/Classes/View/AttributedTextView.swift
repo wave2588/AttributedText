@@ -52,13 +52,6 @@ public class AttributedTextView: UITextView {
         }
     }
     
-    /// special text style
-    public var linkAttributes: [NSAttributedString.Key : Any] = [:] {
-        didSet {
-            linkTextAttributes = linkAttributes
-        }
-    }
-    
     /// placeholderView
     private let placeholderView = AttributedTextPlaceholderView()
 
@@ -189,8 +182,7 @@ extension AttributedTextView: UITextViewDelegate {
                 let deleteRange = NSMakeRange(self.selectedRange.location - 1, 0)
                 
                 /* range 有 bug, 如果两个标签放在一块儿, 正常位置是(0,8)(9,18), 那么在这个循环里边, range 会返回 (0,18),  暂时没解决, 用个模型包起来长度来解决. */
-                if let model = attr as? TextViewInserAttributeModel {
-                    if deleteRange.location > range.location && deleteRange.location < range.location + range.length {
+                if let model = attr as? TextViewInserAttributeModel {                    if deleteRange.location > range.location && deleteRange.location < range.location + range.length {
                         let textAttStr = NSMutableAttributedString(attributedString: self.attributedText)
                         let range = NSRange(location: self.selectedRange.location - model.length, length: model.length)
                         textAttStr.deleteCharacters(in: range)
@@ -225,24 +217,28 @@ private extension AttributedTextView {
         
         let mutableAttrString = NSMutableAttributedString(string: "")
         
+        /// text
+        let text = model.text
+        let textMutableAttrString = NSMutableAttributedString(string: text)
+        textMutableAttrString.addAttributes(model.attributes, range: NSRange(location: 0, length: textMutableAttrString.length))
+        mutableAttrString.insert(textMutableAttrString, at: mutableAttrString.length)
+        
         /// image
-        if let image = model.image {
+        if
+            let image = model.image,
+            let location = model.imageLocation {
             let attach = NSTextAttachment()
             attach.image = image
             attach.bounds = CGRect(x: 0, y: 0, width: image.size.width, height: image.size.height)
             let attachString = NSAttributedString(attachment: attach)
-            mutableAttrString.insert(attachString, at: mutableAttrString.length)
+            switch location {
+            case .left:   mutableAttrString.insert(attachString, at: 0)
+            case .right:  mutableAttrString.insert(attachString, at: mutableAttrString.length)
+            }
         }
-        
-        /// text = symbol + text
-        let text = "\(model.symbolStr ?? "")\(model.text)"
-        let textMutableAttrString = NSMutableAttributedString(string: text)
-        textMutableAttrString.addAttributes(linkAttributes, range: NSRange(location: 0, length: textMutableAttrString.length))
-        mutableAttrString.insert(textMutableAttrString, at: mutableAttrString.length)
         
         /// space
         let spaceAttributedString = NSAttributedString(string: " ")
-        //        mutableAttrString.insert(spaceAttributedString, at: 0)
         mutableAttrString.insert(spaceAttributedString, at: mutableAttrString.length)
         
         /// add special key
@@ -276,11 +272,6 @@ private extension AttributedTextView {
         defaultAttributes = [
             .font: UIFont.systemFont(ofSize: 15),
             .foregroundColor: UIColor(red: 74, green: 74, blue: 74) ?? .black
-        ]
-        
-        linkAttributes = [
-            .font: UIFont.systemFont(ofSize: 15),
-            .foregroundColor: UIColor(red: 69, green: 144, blue: 229) ?? .black
         ]
 
         delegate = self

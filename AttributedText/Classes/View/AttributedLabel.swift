@@ -11,9 +11,6 @@ public class AttributedLabel: UILabel {
 
     /// model map
     public var modelMapper: ((String)->(TextModel?))?
-
-    /// special text style
-    public var linkAttributes: [NSAttributedString.Key : Any] = [:]
     
     /// click link
     public var clickLink: ((TextModel?)->())?
@@ -98,24 +95,28 @@ private extension AttributedLabel {
         
         let mutableAttrString = NSMutableAttributedString(string: "")
         
+        /// text
+        let text = model.text
+        let textMutableAttrString = NSMutableAttributedString(string: text)
+        textMutableAttrString.addAttributes(model.attributes, range: NSRange(location: 0, length: textMutableAttrString.length))
+        mutableAttrString.insert(textMutableAttrString, at: mutableAttrString.length)
+        
         /// image
-        if let image = model.image {
+        if
+            let image = model.image,
+            let location = model.imageLocation {
             let attach = NSTextAttachment()
             attach.image = image
             attach.bounds = CGRect(x: 0, y: 0, width: image.size.width, height: image.size.height)
             let attachString = NSAttributedString(attachment: attach)
-            mutableAttrString.insert(attachString, at: mutableAttrString.length)
+            switch location {
+            case .left:   mutableAttrString.insert(attachString, at: 0)
+            case .right:  mutableAttrString.insert(attachString, at: mutableAttrString.length)
+            }
         }
-        
-        /// text = symbol + text
-        let text = "\(model.symbolStr ?? "")\(model.text)"
-        let textMutableAttrString = NSMutableAttributedString(string: text)
-        textMutableAttrString.addAttributes(linkAttributes, range: NSRange(location: 0, length: textMutableAttrString.length))
-        mutableAttrString.insert(textMutableAttrString, at: mutableAttrString.length)
         
         /// space
         let spaceAttributedString = NSAttributedString(string: " ")
-        //        mutableAttrString.insert(spaceAttributedString, at: 0)
         mutableAttrString.insert(spaceAttributedString, at: mutableAttrString.length)
         
         /// add special key
@@ -143,15 +144,15 @@ private extension AttributedLabel {
                 let location = range.location
                 let length = range.length
                 if index > location && index < location + length {
-                    
                     /// 点击效果
-                    if let color = linkAttributes[.foregroundColor] as? UIColor {
+                    if  let linkAttributes = model?.attributes,
+                        let color = linkAttributes[.foregroundColor] as? UIColor {
                         var tempLinkAttributes = linkAttributes
                         tempLinkAttributes[.foregroundColor] = color.withAlphaComponent(0.5)
                         textStorage.addAttributes(tempLinkAttributes, range: range)
                         setNeedsDisplay()
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2, execute: {
-                            self.textStorage.addAttributes(self.linkAttributes, range: range)
+                            self.textStorage.addAttributes(linkAttributes, range: range)
                             self.setNeedsDisplay()
                         })
                     }
@@ -172,14 +173,6 @@ private extension AttributedLabel {
         
         font = UIFont.systemFont(ofSize: 15)
         textColor = .black
-
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineSpacing = 4
-        linkAttributes = [
-            .font: UIFont.systemFont(ofSize: 15),
-            .foregroundColor: UIColor(red: 69, green: 144, blue: 229) ?? .black,
-            .paragraphStyle: paragraphStyle,
-        ]
         
         isUserInteractionEnabled = true
         numberOfLines = 0

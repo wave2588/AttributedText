@@ -13,26 +13,33 @@ import Foundation
 
 public struct TextModel {
     
+    public enum ImageLocation {
+        case left
+        case right
+    }
+    
     public var id: String
     
     public var text: String
     
-    public var symbolStr: String?
-    
     public var image: UIImage?
+    
+    public var imageLocation: TextModel.ImageLocation?
     
     public var type: Int
     
     public var content: String
     
+    public var attributes: [NSAttributedString.Key : Any]
+    
     var unicodeText: String
 
-    public init(id: String, text: String, symbolStr: String?, image: UIImage?, type: Int) {
+    public init(id: String, text: String, image: UIImage?, imageLocation: TextModel.ImageLocation?, type: Int, attributes: [NSAttributedString.Key : Any]) {
 
         self.id = id
         self.text = text
-        self.symbolStr = symbolStr
         self.image = image
+        self.imageLocation = imageLocation
         self.type = type
 
         let separatorKey = "|"
@@ -40,5 +47,6 @@ public struct TextModel {
         self.unicodeText = "#\(nullWideCharacter)\(separatorKey)\(id)\(separatorKey)\(type)\(separatorKey)\(text.utf8ConvertUnicodeStr)\(nullWideCharacter)"
         
         self.content = self.unicodeText.unicodeConvertUtf8
+        self.attributes = attributes
     }
 }
