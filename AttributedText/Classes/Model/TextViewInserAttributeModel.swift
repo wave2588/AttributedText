@@ -9,9 +9,14 @@ import Foundation
 
 struct TextViewInserAttributeModel {
     
-    /// text ( "#\u200b|id|type|text\u200b" )
-    var content = ""
-    
     /// content length
-    var length = 0
+    let length: Int
+    
+    /// TextModel
+    let textModel: TextModel
+    
+    init(length: Int, textModel: TextModel) {
+        self.length = length
+        self.textModel = textModel
+    }
 }

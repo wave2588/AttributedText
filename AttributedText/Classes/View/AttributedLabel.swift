@@ -9,10 +9,10 @@ import UIKit
 
 public class AttributedLabel: UILabel {
 
-    /// model map
+    /// 模型转换, 必须要实现
     public var modelMapper: ((String)->(TextModel?))?
     
-    /// click link
+    /// 点击
     public var clickLink: ((TextModel?)->())?
     
     /// insert attributed key
@@ -95,13 +95,13 @@ private extension AttributedLabel {
         
         let mutableAttrString = NSMutableAttributedString(string: "")
         
-        /// text
+        /// 添加文本
         let text = "\(model.symbol ?? "")\(model.text)"
         let textMutableAttrString = NSMutableAttributedString(string: text)
         textMutableAttrString.addAttributes(model.attributes, range: NSRange(location: 0, length: textMutableAttrString.length))
         mutableAttrString.insert(textMutableAttrString, at: mutableAttrString.length)
         
-        /// image
+        /// 添加图片
         if
             let image = model.image,
             let location = model.imageLocation {
@@ -115,11 +115,11 @@ private extension AttributedLabel {
             }
         }
         
-        /// space
+        /// 添加空格
         let spaceAttributedString = NSAttributedString(string: " ")
         mutableAttrString.insert(spaceAttributedString, at: mutableAttrString.length)
         
-        /// add special key
+        /// 添加特殊标识
         mutableAttrString.addAttribute(NSAttributedString.Key(rawValue: kInputTextViewSpecialTextKeyAttributeName), value: model, range: NSRange(location: 0, length: mutableAttrString.length))
         
         return mutableAttrString

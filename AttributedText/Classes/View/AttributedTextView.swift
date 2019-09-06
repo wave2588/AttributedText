@@ -19,19 +19,19 @@ public class AttributedTextView: UITextView {
     /// text change
     public var textChanged: ((String)->())?
     
-    /// model map
+    /// 模型转换, 必须要实现.
     public var modelMapper: ((String)->(TextModel?))?
     
-    /// outputs
+    /// 最终要输出的文本
     public var outputs: TextViewOutputModel {
         
         let hashtagTextAttr = NSMutableAttributedString(attributedString: attributedText)
         
         attributedText.enumerateAttribute(NSAttributedString.Key(rawValue: kAttributedTextViewSpecialTextKeyAttributeName), in: NSRange(location: 0, length: attributedText.length), options: NSAttributedString.EnumerationOptions.reverse) { (attr, range, _) in
             
-            if let model = attr as? TextViewInserAttributeModel {
+            if let insertModel = attr as? TextViewInserAttributeModel {
                 
-                let value = model.content
+                let value = insertModel.textModel.content
                 hashtagTextAttr.replaceCharacters(in: range, with: value)
             }
         }
@@ -45,7 +45,7 @@ public class AttributedTextView: UITextView {
         }
     }
     
-    /// default text style
+    /// 默认文本样式
     public var defaultAttributes: [NSAttributedString.Key : Any] = [:] {
         didSet{
             typingAttributes = defaultAttributes
@@ -177,17 +177,30 @@ extension AttributedTextView: UITextViewDelegate {
             
             var deletedSpecial = false
             let oldRange = selectedRange
-            attributedText.enumerateAttribute(NSAttributedString.Key(rawValue: kAttributedTextViewSpecialTextKeyAttributeName), in: NSMakeRange(0, attributedText.length), options: NSAttributedString.EnumerationOptions.reverse) { (attr, range, stop) in
+            attributedText.enumerateAttribute(NSAttributedString.Key(rawValue: kAttributedTextViewSpecialTextKeyAttributeName), in: NSMakeRange(0, attributedText.length), options: NSAttributedString.EnumerationOptions.reverse) { [weak self] (attr, range, stop) in
+                
+                guard let `self` = self else { return }
                 
                 let deleteRange = NSMakeRange(self.selectedRange.location - 1, 0)
                 
                 /* range 有 bug, 如果两个标签放在一块儿, 正常位置是(0,8)(9,18), 那么在这个循环里边, range 会返回 (0,18),  暂时没解决, 用个模型包起来长度来解决. */
-                if let model = attr as? TextViewInserAttributeModel {                    if deleteRange.location > range.location && deleteRange.location < range.location + range.length {
+                if let insertModel = attr as? TextViewInserAttributeModel {
+                    let textModel = insertModel.textModel
+                    if deleteRange.location > range.location && deleteRange.location < range.location + range.length {
+                        /// 默认整段删除
                         let textAttStr = NSMutableAttributedString(attributedString: self.attributedText)
-                        let range = NSRange(location: self.selectedRange.location - model.length, length: model.length)
-                        textAttStr.deleteCharacters(in: range)
-                        self.attributedText = textAttStr
-                        self.selectedRange = NSMakeRange(oldRange.location - range.length, 0)
+                        if textModel.isDeleteAll {
+                            let range = NSRange(location: self.selectedRange.location - insertModel.length, length: insertModel.length)
+                            textAttStr.deleteCharacters(in: range)
+                            self.attributedText = textAttStr
+                            self.selectedRange = NSMakeRange(oldRange.location - range.length, 0)
+                        } else {
+                            let range = NSRange(location: self.selectedRange.location - insertModel.length, length: insertModel.length)
+                            textAttStr.removeAttribute(NSAttributedString.Key(rawValue: kAttributedTextViewSpecialTextKeyAttributeName), range: range)
+                            textAttStr.deleteCharacters(in: NSRange(location: self.selectedRange.location - 1, length: 1))
+                            self.attributedText = textAttStr
+                            self.selectedRange = NSMakeRange(oldRange.location - 1, 0)
+                        }
                         deletedSpecial = true
                         stop.pointee = true
                     }
@@ -217,13 +230,13 @@ private extension AttributedTextView {
         
         let mutableAttrString = NSMutableAttributedString(string: "")
         
-        /// text
+        /// 添加文本
         let text = "\(model.symbol ?? "")\(model.text)"
         let textMutableAttrString = NSMutableAttributedString(string: text)
         textMutableAttrString.addAttributes(model.attributes, range: NSRange(location: 0, length: textMutableAttrString.length))
         mutableAttrString.insert(textMutableAttrString, at: mutableAttrString.length)
         
-        /// image
+        /// 添加图片
         if
             let image = model.image,
             let location = model.imageLocation {
@@ -237,14 +250,12 @@ private extension AttributedTextView {
             }
         }
         
-        /// space
+        /// 添加空格
         let spaceAttributedString = NSAttributedString(string: " ")
         mutableAttrString.insert(spaceAttributedString, at: mutableAttrString.length)
         
-        /// add special key
-        var insertModel = TextViewInserAttributeModel()
-        insertModel.content = model.unicodeText.unicodeConvertUtf8
-        insertModel.length = mutableAttrString.length
+        /// 添加标识符
+        let insertModel = TextViewInserAttributeModel.init(length: mutableAttrString.length, textModel: model)
         mutableAttrString.addAttribute(NSAttributedString.Key(rawValue: kAttributedTextViewSpecialTextKeyAttributeName), value: insertModel, range: NSRange(location: 0, length: mutableAttrString.length))
         
         return mutableAttrString

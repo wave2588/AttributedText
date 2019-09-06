@@ -81,7 +81,15 @@ class TwoViewController: UIViewController {
             switch type {
             case 0:     return TextModel(id: id, symbol: "#", text: text, image: nil, imageLocation: nil, type: type, attributes: self.linkAttributes)
             case 1:     return TextModel(id: id, symbol: "@", text: text, image: nil, imageLocation: nil, type: type, attributes: self.linkAttributes)
-            default:    return TextModel(id: id, symbol: nil, text: text, image: #imageLiteral(resourceName: "database"), imageLocation: .right, type: type, attributes: self.linkAttributes)
+            default:
+                let paragraphStyle = NSMutableParagraphStyle()
+                paragraphStyle.lineSpacing = 4
+                let linkAttributes: [NSAttributedString.Key : Any] = [
+                    .paragraphStyle: paragraphStyle,
+                    .font: UIFont.systemFont(ofSize: 15, weight: .medium),
+                    .foregroundColor: UIColor.black
+                ]
+                return TextModel(id: id, symbol: nil, text: text, image: nil, imageLocation: nil, type: type, attributes: linkAttributes)
             }
         }
         textView.set(text: text)
@@ -89,5 +97,11 @@ class TwoViewController: UIViewController {
     
     @IBAction func clickDismissButtonAction(_ sender: Any) {
         dismiss(animated: true, completion: nil)
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        debugPrint(textView.outputs.hashtagText)
+        debugPrint("----------------------------")
+        debugPrint(textView.outputs.text)
     }
 }
