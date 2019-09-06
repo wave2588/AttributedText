@@ -20,6 +20,8 @@ public struct TextModel {
     
     public var id: String
     
+    public var symbol: String?
+    
     public var text: String
     
     public var image: UIImage?
@@ -34,9 +36,10 @@ public struct TextModel {
     
     var unicodeText: String
 
-    public init(id: String, text: String, image: UIImage?, imageLocation: TextModel.ImageLocation?, type: Int, attributes: [NSAttributedString.Key : Any]) {
+    public init(id: String, symbol: String?, text: String, image: UIImage?, imageLocation: TextModel.ImageLocation?, type: Int, attributes: [NSAttributedString.Key : Any]) {
 
         self.id = id
+        self.symbol = symbol
         self.text = text
         self.image = image
         self.imageLocation = imageLocation

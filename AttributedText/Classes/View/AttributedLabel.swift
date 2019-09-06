@@ -96,7 +96,7 @@ private extension AttributedLabel {
         let mutableAttrString = NSMutableAttributedString(string: "")
         
         /// text
-        let text = model.text
+        let text = "\(model.symbol ?? "")\(model.text)"
         let textMutableAttrString = NSMutableAttributedString(string: text)
         textMutableAttrString.addAttributes(model.attributes, range: NSRange(location: 0, length: textMutableAttrString.length))
         mutableAttrString.insert(textMutableAttrString, at: mutableAttrString.length)

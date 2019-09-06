@@ -34,19 +34,19 @@ class ViewController: UIViewController {
     
     @IBAction func clickHashtagAction(_ sender: Any) {
 
-        let model = TextModel(id: "id-0", text:"话题标签", image: nil, imageLocation: nil, type: 0, attributes: linkAttributes)
+        let model = TextModel(id: "id-0", symbol: "#", text:"话题标签", image: nil, imageLocation: nil, type: 0, attributes: linkAttributes)
         textView.insertSpecialText(model: model, isDeleteLastString: false)
     }
     
     @IBAction func clickMemberAction(_ sender: Any) {
         
-        let model = TextModel(id: "id-1", text:"人物标签", image: nil, imageLocation: nil, type: 1, attributes: linkAttributes)
+        let model = TextModel(id: "id-1", symbol: "@",text:"人物标签", image: nil, imageLocation: nil, type: 1, attributes: linkAttributes)
         textView.insertSpecialText(model: model, isDeleteLastString: false)
     }
     
     @IBAction func clickLocationAction(_ sender: Any) {
         
-        let model = TextModel(id: "id-2", text:"位置标签", image: #imageLiteral(resourceName: "database"), imageLocation: .right, type: 2, attributes: linkAttributes)
+        let model = TextModel(id: "id-2", symbol: nil,text:"位置标签", image: #imageLiteral(resourceName: "database"), imageLocation: .right, type: 2, attributes: linkAttributes)
         textView.insertSpecialText(model: model, isDeleteLastString: false)
     }
     

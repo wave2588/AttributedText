@@ -45,8 +45,8 @@ class TwoViewController: UIViewController {
             
             switch type {
 //            case 0:     return TextModel(id: id, text: text, symbolStr: "#", image: nil, type: type)
-            case 1:     return TextModel(id: id, text: text, image: nil, imageLocation: nil,type: type, attributes: self.linkAttributes)
-            case 2:     return TextModel(id: id, text: text, image: #imageLiteral(resourceName: "database"), imageLocation: .right, type: type, attributes: self.linkAttributes)
+            case 1:     return TextModel(id: id, symbol: "@", text: text, image: nil, imageLocation: nil,type: type, attributes: self.linkAttributes)
+            case 2:     return TextModel(id: id, symbol: nil, text: text, image: #imageLiteral(resourceName: "database"), imageLocation: .right, type: type, attributes: self.linkAttributes)
             default:    return nil
             }
         }
@@ -79,9 +79,9 @@ class TwoViewController: UIViewController {
                 else { return nil }
             
             switch type {
-            case 0:     return TextModel(id: id, text: text, image: nil, imageLocation: nil, type: type, attributes: self.linkAttributes)
-            case 1:     return TextModel(id: id, text: text, image: nil, imageLocation: nil, type: type, attributes: self.linkAttributes)
-            default:    return TextModel(id: id, text: text, image: #imageLiteral(resourceName: "database"), imageLocation: .right, type: type, attributes: self.linkAttributes)
+            case 0:     return TextModel(id: id, symbol: "#", text: text, image: nil, imageLocation: nil, type: type, attributes: self.linkAttributes)
+            case 1:     return TextModel(id: id, symbol: "@", text: text, image: nil, imageLocation: nil, type: type, attributes: self.linkAttributes)
+            default:    return TextModel(id: id, symbol: nil, text: text, image: #imageLiteral(resourceName: "database"), imageLocation: .right, type: type, attributes: self.linkAttributes)
             }
         }
         textView.set(text: text)
