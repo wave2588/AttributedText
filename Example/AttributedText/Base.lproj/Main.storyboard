@@ -113,6 +113,14 @@
                                     <action selector="clickDismissButtonAction:" destination="kek-PW-huY" eventType="touchUpInside" id="ICP-Ml-L9W"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g4J-h6-NSX">
+                                <rect key="frame" x="16" y="390" width="102" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Add Label Text"/>
+                                <connections>
+                                    <action selector="clickAddLabelText:" destination="kek-PW-huY" eventType="touchUpInside" id="RR1-GN-XPX"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>

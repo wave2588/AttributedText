@@ -73,6 +73,18 @@ public extension AttributedLabel {
         setNeedsDisplay()
     }
     
+    ///  add model
+    func insertSpecialText(model: TextModel, location: Int) {
+
+        let currentTextAttText = NSMutableAttributedString(attributedString: attributedText ?? NSAttributedString(string: text ?? ""))
+        let modelAttr = createAtt(model: model)
+        currentTextAttText.insert(modelAttr, at: location)
+        
+        attributedText = currentTextAttText
+        textStorage.setAttributedString(currentTextAttText)
+        setNeedsDisplay()
+    }
+    
     /// 去掉标签格式后的文本结构
     func formatText(text: String) -> String {
         

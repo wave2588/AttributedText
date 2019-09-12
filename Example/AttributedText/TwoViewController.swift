@@ -95,13 +95,24 @@ class TwoViewController: UIViewController {
         textView.set(text: text)
     }
     
+    @IBAction func clickAddLabelText(_ sender: UIButton) {
+        let paragraphStyle1 = NSMutableParagraphStyle()
+        paragraphStyle1.lineSpacing = 4
+        let defaultAttributes: [NSAttributedString.Key : Any] = [
+            .font: UIFont.systemFont(ofSize: 15),
+            .foregroundColor: UIColor.black,
+            .paragraphStyle: paragraphStyle1,
+        ]
+
+        let model = TextModel(id: "id", symbol: nil, text: "查看", image: #imageLiteral(resourceName: "database"), imageLocation: .left, type: 0, attributes: defaultAttributes)
+        label.insertSpecialText(model: model, location: 1)
+    }
+    
     @IBAction func clickDismissButtonAction(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        debugPrint(textView.outputs.hashtagText)
-        debugPrint("----------------------------")
-        debugPrint(textView.outputs.text)
+
     }
 }
