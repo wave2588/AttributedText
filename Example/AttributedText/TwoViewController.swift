@@ -52,8 +52,13 @@ class TwoViewController: UIViewController {
         }
         
         label.clickLink = { model in
-            guard let m = model else { return }
-            debugPrint(m.text)
+//            guard let m = model else { return }
+//            debugPrint(m.text)
+            if let _ = model {
+                debugPrint("true")
+            } else {
+                debugPrint("false")
+            }
         }
         debugPrint(222, label.formatText(text: text))
 
@@ -105,7 +110,7 @@ class TwoViewController: UIViewController {
         ]
 
         let model = TextModel(id: "id", symbol: nil, text: "查看", image: #imageLiteral(resourceName: "database"), imageLocation: .left, type: 0, attributes: defaultAttributes)
-        label.insertSpecialText(model: model, location: 1)
+        label.insertSpecialText(model: model, location: label.text?.count ?? 0)
     }
     
     @IBAction func clickDismissButtonAction(_ sender: Any) {

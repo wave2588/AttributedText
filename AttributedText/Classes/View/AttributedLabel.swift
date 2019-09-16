@@ -80,6 +80,9 @@ public extension AttributedLabel {
         let modelAttr = createAtt(model: model)
         currentTextAttText.insert(modelAttr, at: location)
         
+        let margin = NSMutableAttributedString(string: "\\u200b".unicodeConvertUtf8)
+        currentTextAttText.insert(margin, at: currentTextAttText.length)
+        
         attributedText = currentTextAttText
         textStorage.setAttributedString(currentTextAttText)
         setNeedsDisplay()
@@ -143,10 +146,8 @@ private extension AttributedLabel {
     @objc func tapGestureAction(tapGesture: UITapGestureRecognizer) {
         
         let location = tapGesture.location(in: self)
-
         let index = layoutManager.glyphIndex(for: location, in: textContainer)
         guard let attributedText = self.attributedText else { return }
-        
         var model: TextModel?
         
         attributedText.enumerateAttribute(NSAttributedString.Key(rawValue: kInputTextViewSpecialTextKeyAttributeName), in: NSMakeRange(0, attributedText.length), options: NSAttributedString.EnumerationOptions.reverse) { (attr, range, stop) in
