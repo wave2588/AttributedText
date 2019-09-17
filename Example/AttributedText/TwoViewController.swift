@@ -109,7 +109,7 @@ class TwoViewController: UIViewController {
             .paragraphStyle: paragraphStyle1,
         ]
 
-        let model = TextModel(id: "id", symbol: nil, text: "查看", image: #imageLiteral(resourceName: "database"), imageLocation: .left, type: 0, attributes: defaultAttributes)
+        let model = TextModel(id: "id", symbol: nil, text: "查看", image: #imageLiteral(resourceName: "pin"), imageLocation: .left, type: 0, attributes: defaultAttributes)
         label.insertSpecialText(model: model, location: label.text?.count ?? 0)
     }
     

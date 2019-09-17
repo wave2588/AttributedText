@@ -122,7 +122,8 @@ private extension AttributedLabel {
             let location = model.imageLocation {
             let attach = NSTextAttachment()
             attach.image = image
-            attach.bounds = CGRect(x: 0, y: 0, width: image.size.width, height: image.size.height)
+            let textPaddingTop = (font.lineHeight - font.pointSize) * 0.5
+            attach.bounds = CGRect(x: 0, y: -textPaddingTop, width: image.size.width, height: image.size.height)
             let attachString = NSAttributedString(attachment: attach)
             switch location {
             case .left:   mutableAttrString.insert(attachString, at: 0)
