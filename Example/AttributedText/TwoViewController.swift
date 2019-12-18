@@ -60,7 +60,6 @@ class TwoViewController: UIViewController {
                 debugPrint("false")
             }
         }
-        debugPrint(222, label.formatText(text: text))
 
         let paragraphStyle1 = NSMutableParagraphStyle()
         paragraphStyle1.lineSpacing = 4
@@ -70,7 +69,7 @@ class TwoViewController: UIViewController {
             .paragraphStyle: paragraphStyle1,
         ]
         let attr = NSAttributedString(string: text, attributes: defaultAttributes)
-        label.set(attributedString: attr)
+        _ = label.set(attributedString: attr)
         
         textView.modelMapper = { [unowned self] text -> TextModel? in
             

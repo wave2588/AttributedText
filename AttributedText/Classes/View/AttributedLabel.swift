@@ -52,7 +52,7 @@ public class AttributedLabel: UILabel {
 
 public extension AttributedLabel {
     
-    func set(attributedString: NSAttributedString) {
+    func set(attributedString: NSAttributedString, isNeedDisplay: Bool = true) -> NSAttributedString {
         
         let resultAttr = NSMutableAttributedString(attributedString: attributedString)
 
@@ -66,11 +66,14 @@ public extension AttributedLabel {
                 resultAttr.replaceCharacters(in: range, with: attr)
             }
         }
-        attributedText = resultAttr
         
-        textStorage.setAttributedString(resultAttr)
+        if isNeedDisplay {
+            attributedText = resultAttr
+            textStorage.setAttributedString(resultAttr)
+            setNeedsDisplay()
+        }
         
-        setNeedsDisplay()
+        return resultAttr
     }
     
     ///  add model
@@ -86,21 +89,6 @@ public extension AttributedLabel {
         attributedText = currentTextAttText
         textStorage.setAttributedString(currentTextAttText)
         setNeedsDisplay()
-    }
-    
-    /// 去掉标签格式后的文本结构
-    func formatText(text: String) -> String {
-        
-        let resultAttr = NSMutableAttributedString(string: text)
-        let matches = resultAttr.string.matchingStrings(regex: "#\\u200b.*?\\u200b")
-        for content in matches {
-            let range = (resultAttr.string as NSString).range(of: content)
-            if let model = modelMapper?(content) {
-                let attr = createAtt(model: model)
-                resultAttr.replaceCharacters(in: range, with: attr)
-            }
-        }
-        return resultAttr.string
     }
 }
 
