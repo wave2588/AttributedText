@@ -68,6 +68,7 @@ class TwoViewController: UIViewController {
             .foregroundColor: UIColor.black,
             .paragraphStyle: paragraphStyle1,
         ]
+        
         let attr = NSAttributedString(string: text, attributes: defaultAttributes)
         _ = label.set(attributedString: attr, isConverted: true)
         
