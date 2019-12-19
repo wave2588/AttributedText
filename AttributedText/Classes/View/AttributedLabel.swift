@@ -12,7 +12,7 @@ public class AttributedLabel: UILabel {
     /// 模型转换, 必须要实现
     public var modelMapper: ((String)->(TextModel?))?
     
-    /// 点击
+    /// click
     public var clickLink: ((TextModel?)->())?
     
     /// insert attributed key
@@ -51,32 +51,36 @@ public class AttributedLabel: UILabel {
 }
 
 public extension AttributedLabel {
-    
-    func set(attributedString: NSAttributedString, isNeedDisplay: Bool = true) -> NSAttributedString {
+
+    func convert(attributedString: NSAttributedString) -> NSAttributedString {
         
         let resultAttr = NSMutableAttributedString(attributedString: attributedString)
 
         let matches = resultAttr.string.matchingStrings(regex: "#\\u200b.*?\\u200b")
         
         for content in matches {
-            
             let range = (resultAttr.string as NSString).range(of: content)
             if let model = modelMapper?(content) {
                 let attr = createAtt(model: model)
                 resultAttr.replaceCharacters(in: range, with: attr)
             }
         }
-        
-        if isNeedDisplay {
-            attributedText = resultAttr
-            textStorage.setAttributedString(resultAttr)
-            setNeedsDisplay()
-        }
-        
         return resultAttr
     }
     
-    ///  add model
+    func set(attributedString: NSAttributedString, isConverted: Bool = false) {
+        
+        var attributedString = attributedString
+        
+        if !isConverted {
+            attributedString = convert(attributedString: attributedString)
+        }
+        
+        attributedText = attributedString
+        textStorage.setAttributedString(attributedString)
+        setNeedsDisplay()
+    }
+    
     func insertSpecialText(model: TextModel, location: Int) {
 
         let currentTextAttText = NSMutableAttributedString(attributedString: attributedText ?? NSAttributedString(string: text ?? ""))

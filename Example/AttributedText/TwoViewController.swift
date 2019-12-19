@@ -69,7 +69,7 @@ class TwoViewController: UIViewController {
             .paragraphStyle: paragraphStyle1,
         ]
         let attr = NSAttributedString(string: text, attributes: defaultAttributes)
-        _ = label.set(attributedString: attr)
+        _ = label.set(attributedString: attr, isConverted: true)
         
         textView.modelMapper = { [unowned self] text -> TextModel? in
             
