@@ -8,7 +8,21 @@
 import UIKit
 
 public class AttributedLabel: UILabel {
-
+    
+    public var ALineBreakMode: NSLineBreakMode = .byTruncatingTail {
+        didSet {
+            self.lineBreakMode = ALineBreakMode
+            self.textContainer.lineBreakMode = ALineBreakMode
+        }
+    }
+    
+    public var ANumberOfLines: Int = 0 {
+        didSet {
+            self.numberOfLines = ANumberOfLines
+            self.textContainer.maximumNumberOfLines = ANumberOfLines
+        }
+    }
+    
     /// 模型转换, 必须要实现
     public var modelMapper: ((String)->(TextModel?))?
     
@@ -24,7 +38,7 @@ public class AttributedLabel: UILabel {
 
     public override init(frame: CGRect) {
         super.init(frame: frame)
-        
+    
         configureLabel()
     }
     
@@ -39,14 +53,10 @@ public class AttributedLabel: UILabel {
     }
     
     public override func draw(_ rect: CGRect) {
-        textContainer.size = size
+        textContainer.size = CGSize(width: size.width, height: size.height * 1.5)
+
         let range = NSMakeRange(0, textStorage.length)
         layoutManager.drawGlyphs(forGlyphRange: range, at: .zero)
-    }
-    
-    override public func layoutSubviews() {
-        super.layoutSubviews()
-        textContainer.size = size
     }
 }
 
@@ -75,7 +85,7 @@ public extension AttributedLabel {
         if !isConverted {
             attributedString = convert(attributedString: attributedString)
         }
-        
+
         attributedText = attributedString
         textStorage.setAttributedString(attributedString)
         setNeedsDisplay()
@@ -181,8 +191,8 @@ private extension AttributedLabel {
         textColor = .black
         
         isUserInteractionEnabled = true
-        numberOfLines = 0
-        lineBreakMode = .byCharWrapping
+        numberOfLines = ANumberOfLines
+        lineBreakMode = ALineBreakMode
         
         textStorage.addLayoutManager(layoutManager)
         layoutManager.addTextContainer(textContainer)

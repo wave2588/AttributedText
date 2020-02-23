@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="vXZ-lx-hvc">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="vXZ-lx-hvc">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -22,7 +20,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="tZH-Ip-4Va" customClass="AttributedTextView" customModule="AttributedText">
-                                <rect key="frame" x="10" y="170" width="355" height="150"/>
+                                <rect key="frame" x="10" y="150" width="355" height="150"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="150" id="eXN-Zt-rqb"/>
@@ -77,6 +75,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="140" y="134"/>
         </scene>
         <!--Two View Controller-->
         <scene sceneID="cPU-oj-XZs">
@@ -91,7 +90,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="32D-8N-NaY" customClass="AttributedTextView" customModule="AttributedText">
-                                <rect key="frame" x="0.0" y="120" width="375" height="150"/>
+                                <rect key="frame" x="0.0" y="100" width="375" height="150"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="150" id="Tkk-1u-kXe"/>
@@ -100,7 +99,7 @@
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bdy-zh-7ep" customClass="AttributedLabel" customModule="AttributedText">
-                                <rect key="frame" x="10" y="290" width="355" height="20.5"/>
+                                <rect key="frame" x="15" y="270" width="345" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -125,10 +124,10 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="32D-8N-NaY" firstAttribute="top" secondItem="f0V-H5-7aI" secondAttribute="bottom" constant="100" id="2Fu-6K-kWn"/>
-                            <constraint firstAttribute="trailing" secondItem="bdy-zh-7ep" secondAttribute="trailing" constant="10" id="CAg-II-Tik"/>
+                            <constraint firstAttribute="trailing" secondItem="bdy-zh-7ep" secondAttribute="trailing" constant="15" id="CAg-II-Tik"/>
                             <constraint firstItem="bdy-zh-7ep" firstAttribute="top" secondItem="32D-8N-NaY" secondAttribute="bottom" constant="20" id="NyX-wb-JnG"/>
                             <constraint firstAttribute="trailing" secondItem="32D-8N-NaY" secondAttribute="trailing" id="PmR-hL-9tl"/>
-                            <constraint firstItem="bdy-zh-7ep" firstAttribute="leading" secondItem="Ofb-nX-iDT" secondAttribute="leading" constant="10" id="U1B-cI-39d"/>
+                            <constraint firstItem="bdy-zh-7ep" firstAttribute="leading" secondItem="Ofb-nX-iDT" secondAttribute="leading" constant="15" id="U1B-cI-39d"/>
                             <constraint firstItem="32D-8N-NaY" firstAttribute="leading" secondItem="Ofb-nX-iDT" secondAttribute="leading" id="wCh-ly-Odb"/>
                         </constraints>
                     </view>
