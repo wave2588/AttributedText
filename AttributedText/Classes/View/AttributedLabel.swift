@@ -188,7 +188,6 @@ private extension AttributedLabel {
     func configureLabel() {
         
         font = UIFont.systemFont(ofSize: 15)
-        textColor = .black
         
         isUserInteractionEnabled = true
         numberOfLines = ANumberOfLines
